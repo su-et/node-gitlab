@@ -328,6 +328,203 @@ describe('Branch Management', function (done) {
 
 });
 
+describe('Project Deploy Keys', function (done) {
+  var keyId;
+  this.timeout(5000);
+
+  it ('should add a deploy key to a project', function (done) {
+    if (testId) {
+      gitlab.deploykeys.create(testId, config.newSSHKey.title, config.newSSHKey.key).done(
+        function (deploykey) {
+          deploykey.should.be.an.Object;
+          deploykey.id.should.be.greaterThan(0);
+          keyId = deploykey.id;
+          done();
+        },
+        done
+      );
+    } else {
+      console.warn('Skipping add deploy key test because initial project creation failed');
+    }
+  });
+
+  it ('should retrieve a single deploy key from a project', function (done) {
+    if (testId && keyId) {
+      gitlab.deploykeys.get(testId, keyId).done(
+        function (deploykey) {
+          deploykey.should.be.an.Object;
+          deploykey.id.should.equal(keyId);
+          done();
+        },
+        done
+      );
+    } else {
+      console.warn('Skipping get single deploy key test because initial project creation failed or key add failed');
+    }
+  });
+
+  it ('should retrieve all deploy keys from a project', function (done) {
+    if (testId && keyId) {
+      gitlab.deploykeys.get(testId).done(
+        function (deploykeys) {
+          deploykeys.should.be.an.Array;
+          deploykeys.length.should.be.greaterThan(0);
+          deploykeys.some(function (k) { return k.id === keyId; }).should.be.true;
+          done();
+        },
+        done
+      );
+    } else {
+      console.warn('Skipping get all deploy keys test because initial project creation failed or key add failed');
+    }
+  });
+
+  it ('should delete a deploy key from a project', function (done) {
+    if (testId && keyId) {
+      gitlab.deploykeys.delete(testId, keyId).done(
+        function (deploykey) {
+          deploykey.should.be.an.Object;
+          deploykey.id.should.equal(keyId);
+          done();
+        },
+        done
+      );
+    } else {
+      console.warn('Skipping delete deploy key test because initial project creation failed or key add failed');
+    }
+  });
+});
+
+describe('Project Hooks', function (done) {
+  var hookUrl = 'http://example.org/',
+      defaultHookId = null,
+      specialHookId = null;
+
+  this.timeout(5000);
+
+  it ('should add a hook with default event notifications to a project', function (done) {
+    if (testId) {
+      gitlab.projecthooks.create(testId, hookUrl).done(
+        function (hook) {
+          hook.should.be.an.Object;
+          hook.id.should.be.greaterThan(0);
+          hook.url.should.equal(hookUrl);
+          hook.push_events.should.be.true;
+          hook.issues_events.should.be.false;
+          hook.merge_requests_events.should.be.false;
+          defaultHookId = hook.id;
+          done();
+        },
+        done
+      );
+    } else {
+      console.warn('Skipping add hook test because initial project creation failed');
+    }
+  });
+
+  it ('should add a hook with custom event notifications to a project', function (done) {
+    if (testId) {
+      gitlab.projecthooks.create(testId, hookUrl, { push_events: false }).done(
+        function (hook) {
+          hook.should.be.an.Object;
+          hook.id.should.be.greaterThan(0);
+          hook.url.should.equal(hookUrl);
+          hook.push_events.should.be.false;
+          hook.issues_events.should.be.false;
+          hook.merge_requests_events.should.be.false;
+          specialHookId = hook.id;
+          done();
+        },
+        done
+      );
+    } else {
+      console.warn('Skipping add hook test because initial project creation failed');
+    }
+  });
+
+  it ('should retrieve a single hook from a project', function (done) {
+    if (testId && defaultHookId) {
+      gitlab.projecthooks.get(testId, defaultHookId).done(
+        function (hook) {
+          hook.should.be.an.Object;
+          hook.id.should.equal(defaultHookId);
+          done();
+        },
+        done
+      );
+    } else {
+      console.warn('Skipping get single hook test because initial project creation failed or hook add failed');
+    }
+  });
+
+  it ('should retrieve all hooks from a project', function (done) {
+    if (testId && defaultHookId) {
+      gitlab.projecthooks.get(testId).done(
+        function (hooks) {
+          hooks.should.be.an.Array;
+          hooks.length.should.be.greaterThan(0);
+          hooks.some(function (h) { return h.id === defaultHookId; }).should.be.true;
+          hooks.some(function (h) { return h.id === specialHookId; }).should.be.true;
+          done();
+        },
+        done
+      );
+    } else {
+      console.warn('Skipping get all hooks test because initial project creation failed or hook add failed');
+    }
+  });
+
+  it ('should update a hook with a new URL', function (done) {
+    if (testId) {
+      gitlab.projecthooks.update(testId, defaultHookId, { url: hookUrl + '/test' }).done(
+        function (hook) {
+          hook.should.be.an.Object;
+          hook.id.should.equal(defaultHookId);
+          hook.url.should.equal(hookUrl + '/test');
+          hook.push_events.should.be.true;
+          hook.issues_events.should.be.false;
+          hook.merge_requests_events.should.be.false;
+          done();
+        },
+        done
+      );
+    } else {
+      console.warn('Skipping update hook test because initial project creation failed');
+    }
+  });
+
+  it ('should delete a hook with default event notifications from a project', function (done) {
+    if (testId && defaultHookId) {
+      gitlab.projecthooks.delete(testId, defaultHookId).done(
+        function (hook) {
+          hook.should.be.an.Object;
+          hook.id.should.equal(defaultHookId);
+          done();
+        },
+        done
+      );
+    } else {
+      console.warn('Skipping delete hook test because initial project creation failed or hook add failed');
+    }
+  });
+
+  it ('should delete a hook with custom event notifications from a project', function (done) {
+    if (testId && specialHookId) {
+      gitlab.projecthooks.delete(testId, specialHookId).done(
+        function (hook) {
+          hook.should.be.an.Object;
+          hook.id.should.equal(specialHookId);
+          done();
+        },
+        done
+      );
+    } else {
+      console.warn('Skipping delete hook test because initial project creation failed or hook add failed');
+    }
+  });
+
+});
+
 
 describe('Project Search', function (done) {
   this.timeout(5000);
