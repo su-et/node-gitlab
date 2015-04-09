@@ -207,35 +207,40 @@ describe('Project Creation', function (done) {
 });
 
 describe('Branch Management', function (done) {
-  this.timeout(10000);
-  
-  it ('should list branches', function (done) {
-    function testBranches(branches) {
-      branches.should.be.an.Array;
-      branches.length.should.be.greaterThan(0);
-      branches.some(function (b) { return b.name === 'master'; }).should.be.true;
-      done();
-    }
+  this.timeout(5000);
 
+  it ('should list branches', function (done) {
+    this.timeout(25000);
     if (testId) {
-      gitlab.branches.get(testId).done(
-        testBranches,
-        function (err) {
-          if (err.statusCode === 500) {
-            // import not finished?
-            console.warn('        first attempt to retrieve branch list failed');
-            console.warn('        waiting another 5s for import to complete');
-            setTimeout(function () {
-              gitlab.branches.get(testId).done(
-                testBranches,
-                done
-              );
-            }, 5000);
-          } else {
-            done(err);
-          }
+      var attempts  = 0,
+          interval  = null;
+
+      console.warn('        waiting 5s for import to complete');
+      interval = setInterval(function () {
+        attempts++;
+        if (attempts === 3) {
+          interval.close();
+          done('Failed after ' + attempts + ' attempts to retrieve branches list');
+        } else {
+          gitlab.branches.get(testId).done(
+            function (branches) {
+              branches.should.be.an.Array;
+              branches.length.should.be.greaterThan(0);
+              branches.some(function (b) { return b.name === 'master'; }).should.be.true;
+              interval.close();
+              done();
+            },
+            function (err) {
+              if (err.statusCode !== 500) {
+                interval.close();
+                done(err);
+              }
+            }
+          );
+          console.warn('        waiting another 5s for import to complete');
         }
-      );
+      }, 5000);
+
     } else {
       console.warn('Skipping branch list test because initial project creation failed');
       done();
