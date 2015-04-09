@@ -1,0 +1,41 @@
+{
+  "name":         "node-gitlab",
+  "version":      "0.1.0",
+  "description":  "Interface to GitLab API",
+  "main":         "lib/gitlab.js",
+  "scripts": {
+    "test": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --recursive -R spec test"
+  },
+  "repository": {
+    "type": "git",
+    "url":  "https://github.com/su-et/node-gitlab.git"
+  },
+  "keywords": [
+    "gitlab"
+  ],
+  "author": {
+    "name":   "Scotty Logan",
+    "email":  "swl@stanford.edu",
+    "url":    "http://itarch.stanford.edu/"
+  },
+  "license":  "MIT",
+  "bugs": {
+    "url":  "https://github.com/su-et/node-gitlab/issues"
+  },
+  "homepage": "https://github.com/su-et/node-gitlab",
+  "devDependencies": {
+    "istanbul":         "^0.3.13",
+    "jsdoc":            "^3.3.0-beta3",
+    "jshint":           "^2.6.3",
+    "mocha":            "^2.2.3",
+    "should":           "^5.2.0",
+    "should-http":      "0.0.2",
+    "should-promised":  "^0.2.0"
+  },
+  "dependencies": {
+    "password-maker": "^1.0.5",
+    "promise":        "^6.1.0",
+    "request":        "^2.55.0"
+  }
+}
+

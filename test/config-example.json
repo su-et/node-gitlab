@@ -1,0 +1,17 @@
+{
+  "url":      "https://gitlab.example.org",
+  "token":    "GITLABTOKEN",
+  "sudoUser": "bob",
+  "userId":   numeric-id-but-not-sudoUser,
+  "groupId":  numeric-id,
+  "importUrl": "https://git.example.org/test.git",
+  "newUser": {
+    "mail":     "newuser@example.org",
+    "username": "newuser",
+    "name":     "New User"
+  },
+  "newSSHKey": {
+    "title":  "test-key",
+    "key":    "ssh-rsa AAAA..."
+  }
+}
