@@ -1,6 +1,6 @@
 {
   "name":         "node-gitlab",
-  "version":      "0.1.0",
+  "version":      "0.1.2",
   "description":  "Interface to GitLab API",
   "main":         "lib/gitlab.js",
   "scripts": {
