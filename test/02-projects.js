@@ -345,6 +345,7 @@ describe('Project Deploy Keys', function (done) {
       );
     } else {
       console.warn('Skipping add deploy key test because initial project creation failed');
+      done();
     }
   });
 
@@ -360,6 +361,7 @@ describe('Project Deploy Keys', function (done) {
       );
     } else {
       console.warn('Skipping get single deploy key test because initial project creation failed or key add failed');
+      done();
     }
   });
 
@@ -376,6 +378,7 @@ describe('Project Deploy Keys', function (done) {
       );
     } else {
       console.warn('Skipping get all deploy keys test because initial project creation failed or key add failed');
+      done();
     }
   });
 
@@ -391,6 +394,7 @@ describe('Project Deploy Keys', function (done) {
       );
     } else {
       console.warn('Skipping delete deploy key test because initial project creation failed or key add failed');
+      done();
     }
   });
 });
@@ -419,6 +423,7 @@ describe('Project Hooks', function (done) {
       );
     } else {
       console.warn('Skipping add hook test because initial project creation failed');
+      done();
     }
   });
 
@@ -439,6 +444,7 @@ describe('Project Hooks', function (done) {
       );
     } else {
       console.warn('Skipping add hook test because initial project creation failed');
+      done();
     }
   });
 
@@ -454,6 +460,7 @@ describe('Project Hooks', function (done) {
       );
     } else {
       console.warn('Skipping get single hook test because initial project creation failed or hook add failed');
+      done();
     }
   });
 
@@ -471,6 +478,7 @@ describe('Project Hooks', function (done) {
       );
     } else {
       console.warn('Skipping get all hooks test because initial project creation failed or hook add failed');
+      done();
     }
   });
 
@@ -490,6 +498,7 @@ describe('Project Hooks', function (done) {
       );
     } else {
       console.warn('Skipping update hook test because initial project creation failed');
+      done();
     }
   });
 
@@ -505,6 +514,7 @@ describe('Project Hooks', function (done) {
       );
     } else {
       console.warn('Skipping delete hook test because initial project creation failed or hook add failed');
+      done();
     }
   });
 
@@ -520,6 +530,7 @@ describe('Project Hooks', function (done) {
       );
     } else {
       console.warn('Skipping delete hook test because initial project creation failed or hook add failed');
+      done();
     }
   });
 
