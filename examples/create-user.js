@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 var fs          = require('fs'),
     config      = JSON.parse(fs.readFileSync('test/config.json', 'utf8')),
     gitlab      = require('../lib/gitlab.js')(config.url, config.token),
