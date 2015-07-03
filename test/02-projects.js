@@ -13,6 +13,7 @@ var should      = require('should'),
     forkedId    = null;
 
 describe('Project Retrieval', function (done) {
+  this.timeout(10000);
 
   var projId = null;
   
