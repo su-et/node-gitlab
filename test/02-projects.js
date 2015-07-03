@@ -41,6 +41,8 @@ describe('Project Retrieval', function (done) {
     gitlab.projects.getAll().done(
       function (projects) {
         projects.should.be.an.Array;
+        projects.length.should.not.equal(0);
+        projects[0].should.have.property('id').be.not.null;
         projId = projects[0].id;
         done();
       },
