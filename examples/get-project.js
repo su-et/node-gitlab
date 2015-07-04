@@ -21,7 +21,7 @@ gitlab.projects.getAll().done(
         return (projects.indexOf(project.name) >= 0);
       });
     }
-    p.forEach(function (project) {
+    p.sort(function (a,b) { return a.id - b.id; } ).forEach(function (project) {
       console.log('#' + project.id + ' ' + project.namespace.path + '/' + project.name);
     });
   },
