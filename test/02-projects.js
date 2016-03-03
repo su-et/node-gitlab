@@ -12,7 +12,7 @@ var should      = require('should'),
     groupTestId = null,
     forkedId    = null;
 
-describe('Project Retrieval', function (done) {
+describe('Generic Project Retrieval', function (done) {
   this.timeout(10000);
 
   var projId = null;
@@ -142,7 +142,7 @@ describe('Project Creation', function (done) {
   
   it ('should create a project for another user', function (done) {
     if (testId) {
-      gitlab.projects.create({ "name": testName, "public": true }, config.userId).done(
+      gitlab.projects.create({ "name": testName, "visibility_level": 10 }, config.userId).done(
         function (project) {
           project.should.be.an.Object;
           project.id.should.not.equal(0);
@@ -213,7 +213,7 @@ describe('Branch Management', function (done) {
   this.timeout(5000);
 
   it ('should list branches', function (done) {
-    this.timeout(25000);
+    this.timeout(55000);
     if (testId) {
       var attempts  = 0,
           interval  = null;
@@ -221,7 +221,7 @@ describe('Branch Management', function (done) {
       console.warn('        waiting 5s for import to complete');
       interval = setInterval(function () {
         attempts++;
-        if (attempts === 3) {
+        if (attempts === 10) {
           interval.close();
           done('Failed after ' + attempts + ' attempts to retrieve branches list');
         } else {
@@ -540,10 +540,56 @@ describe('Project Hooks', function (done) {
 });
 
 
-describe('Project Search', function (done) {
+describe('Specific Project Retrieval', function (done) {
   this.timeout(5000);
 
-  it ('should find a project', function (done) {
+  it ('should find a project by ID', function (done) {
+
+    if (testId) {
+      gitlab.projects.get(testId).done(
+        function (project) {
+          project.should.be.an.Object;
+          // should 1-4 results for our project name
+          project.should.have.property('id');
+          project.id.should.equal(testId);
+          project.should.have.property('name');
+          project.name.should.equal(testName);
+          done();
+        },
+        done
+      );
+    } else {
+      console.warn('Skipping search project test because initial project creation failed');
+      done();
+    }
+  });
+
+  it ('should find a project by namespace and name', function (done) {
+
+    if (userTestId) {
+      gitlab.projects.get(config.userName + '%2F' + testName).done(
+        function (project) {
+          project.should.be.an.Object;
+          // should 1-4 results for our project name
+          project.should.have.property('id');
+          project.id.should.equal(userTestId);
+          project.should.have.property('namespace');
+          project.namespace.should.be.an.Object;
+          project.namespace.should.have.property('path');
+          project.namespace.path.should.equal(config.userName);
+          project.should.have.property('name');
+          project.name.should.equal(testName);
+          done();
+        },
+        done
+      );
+    } else {
+      console.warn('Skipping search project test because initial project creation failed');
+      done();
+    }
+  });
+
+  it ('should find a project via search', function (done) {
 
     if (testId) {
       gitlab.projects.search(testName).done(
@@ -604,10 +650,9 @@ describe('Project Deletion', function (done) {
   it ('should delete a project', function (done) {
     if (testId) {
       gitlab.projects.delete(testId).done(
-        function (project) {
-          project.should.be.an.Object;
-          project.id.should.equal(testId);
-          project.name.should.equal(testName);
+        function (status) {
+          status.should.be.a.Boolean;
+          status.should.equal(true);
           done();
         },
         done
@@ -621,10 +666,9 @@ describe('Project Deletion', function (done) {
   it ('should delete a project created in a group namespace', function (done) {
     if (groupTestId) {
       gitlab.projects.delete(groupTestId).done(
-        function (project) {
-          project.should.be.an.Object;
-          project.id.should.equal(groupTestId);
-          project.name.should.equal(testName);
+        function (status) {
+          status.should.be.a.Boolean;
+          status.should.equal(true);
           done();
         },
         done
@@ -635,13 +679,12 @@ describe('Project Deletion', function (done) {
     }
   });
 
-  it ('should delete a project created for a user', function (done) {
+  it ('should delete a project created for a user by name', function (done) {
     if (userTestId) {
-      gitlab.projects.delete(userTestId).done(
-        function (project) {
-          project.should.be.an.Object;
-          project.id.should.equal(userTestId);
-          project.name.should.equal(testName);
+      gitlab.projects.delete(config.userName + '%2F' + testName).done(
+        function (status) {
+          status.should.be.a.Boolean;
+          status.should.equal(true);
           done();
         },
         done
@@ -655,10 +698,9 @@ describe('Project Deletion', function (done) {
   it ('should delete a project created using sudo', function (done) {
     if (sudoTestId) {
       gitlab.projects.delete(sudoTestId).done(
-        function (project) {
-          project.should.be.an.Object;
-          project.id.should.equal(sudoTestId);
-          project.name.should.equal(testName);
+        function (status) {
+          status.should.be.a.Boolean;
+          status.should.equal(true);
           done();
         },
         done

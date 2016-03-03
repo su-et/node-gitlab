@@ -133,7 +133,6 @@ describe('Group Membership', function (done) {
       gitlab.groups.addMember(testId, config.userId, 'developer').done(
         function (member) {
           member.should.be.an.Object;
-          member.state.should.equal('active');
           member.access_level.should.equal(30);
           memberId = member.id;
           done();
@@ -151,9 +150,16 @@ describe('Group Membership', function (done) {
       gitlab.groups.getMembers(testId).done(
         function (members) {
           members.should.be.an.Array;
-          members.length.should.equal(1);
-          members[0].id.should.equal(config.userId);
-          members[0].access_level.should.equal(30);
+          // group owner is now automatically a member
+          // so need to find the new member
+          members.length.should.be.greaterThan(0);
+          members.filter(function (m) {
+            if (m.id === config.userId) {
+              m.access_level.should.equal(30);
+              return true;
+            }
+            return false;
+          }).length.should.equal(1);
           done();
         },
         done
@@ -173,8 +179,8 @@ describe('Group Membership', function (done) {
         function (membership) {
           membership.should.be.an.Object;
           membership.user_id.should.equal(config.userId);
-          membership.group_id.should.equal(testId);
-          membership.group_access.should.equal(30);
+          membership.source_id.should.equal(testId);
+          membership.access_level.should.equal(30);
           done();
         },
         done

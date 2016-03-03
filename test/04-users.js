@@ -102,8 +102,14 @@ describe('User Update', function (done) {
           user.email.should.equal(config.newUser.email);
           user.name.should.equal(config.newUser.name);
           user.username.should.equal(config.newUser.username);
-          user.provider.should.equal('saml');
-          user.extern_uid.should.equal(config.newUser.email);
+          user.should.have.property('identities');
+          user.identities.should.be.an.Array;
+          user.identities.length.should.be.greaterThan(0);
+          user.identities[0].should.be.an.Object;
+          user.identities[0].should.have.property('provider');
+          user.identities[0].provider.should.equal('saml');
+          user.identities[0].should.have.property('extern_uid');
+          user.identities[0].extern_uid.should.equal(config.newUser.email);
           user.id.should.equal(testId);
           done();
         },
