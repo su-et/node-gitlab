@@ -655,8 +655,6 @@ describe('Project Deletion', function (done) {
     if (testId) {
       gitlab.projects.delete(testId).done(
         function (status) {
-          status.should.be.a.Boolean;
-          status.should.equal(true);
           done();
         },
         done
@@ -671,8 +669,6 @@ describe('Project Deletion', function (done) {
     if (groupTestId) {
       gitlab.projects.delete(groupTestId).done(
         function (status) {
-          status.should.be.a.Boolean;
-          status.should.equal(true);
           done();
         },
         done
@@ -687,8 +683,6 @@ describe('Project Deletion', function (done) {
     if (userTestId) {
       gitlab.projects.delete(config.userName + '%2F' + testName).done(
         function (status) {
-          status.should.be.a.Boolean;
-          status.should.equal(true);
           done();
         },
         done
@@ -703,8 +697,6 @@ describe('Project Deletion', function (done) {
     if (sudoTestId) {
       gitlab.projects.delete(sudoTestId).done(
         function (status) {
-          status.should.be.a.Boolean;
-          status.should.equal(true);
           done();
         },
         done
