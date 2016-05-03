@@ -162,7 +162,7 @@ describe('Project Creation', function (done) {
 
   it ('should create a project in a group namespace', function (done) {
     if (testId) {
-      gitlab.projects.create({ "name": testName, "public": true, "namespace_id": config.groupId }).done(
+      gitlab.projects.create({ "name": testName, "visibility_level": 10, "namespace_id": config.groupId }).done(
         function (project) {
           project.should.be.an.Object;
           project.id.should.not.equal(0);
