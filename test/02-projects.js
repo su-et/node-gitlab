@@ -81,7 +81,7 @@ describe('Generic Project Retrieval', function (done) {
 
 describe('Project Creation', function (done) {
 
-  this.timeout(5000);
+  this.timeout(7500);
 
   it ('should create a project with an import', function (done) {
     var n = Math.floor(Math.random() * 100000).toString();
@@ -210,7 +210,7 @@ describe('Project Creation', function (done) {
 });
 
 describe('Branch Management', function (done) {
-  this.timeout(5000);
+  this.timeout(7500);
 
   it ('should list branches', function (done) {
     this.timeout(55000);
@@ -333,7 +333,7 @@ describe('Branch Management', function (done) {
 
 describe('Project Deploy Keys', function (done) {
   var keyId;
-  this.timeout(5000);
+  this.timeout(7500);
 
   it ('should add a deploy key to a project', function (done) {
     if (testId) {
@@ -407,7 +407,7 @@ describe('Project Hooks', function (done) {
       defaultHookId = null,
       specialHookId = null;
 
-  this.timeout(5000);
+  this.timeout(7500);
 
   it ('should add a hook with default event notifications to a project', function (done) {
     if (testId) {
@@ -541,7 +541,7 @@ describe('Project Hooks', function (done) {
 
 
 describe('Specific Project Retrieval', function (done) {
-  this.timeout(5000);
+  this.timeout(7500);
 
   it ('should find a project by ID', function (done) {
 
@@ -618,7 +618,7 @@ describe('Specific Project Retrieval', function (done) {
 /* Updating via the API is not support in older versions of GitLab
 
 describe('Project Update', function (done) {
-  this.timeout(5000);
+  this.timeout(7500);
 
   it ('should update a project', function (done) {
     var testDesc = 'this is project #' + Math.floor(Math.random() * 100000).toString();
@@ -645,7 +645,7 @@ describe('Project Update', function (done) {
 
 describe('Project Deletion', function (done) {
 
-  this.timeout(5000);
+  this.timeout(7500);
 
   it ('should delete a project', function (done) {
     if (testId) {
