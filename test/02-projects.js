@@ -508,9 +508,11 @@ describe('Project Hooks', function (done) {
   it ('should delete a hook with default event notifications from a project', function (done) {
     if (testId && defaultHookId) {
       gitlab.projecthooks.delete(testId, defaultHookId).done(
-        function (hook) {
-          hook.should.be.an.Object;
-          hook.id.should.equal(defaultHookId);
+        function (hooks) {
+          hooks.should.be.an.Array;
+          hooks.length.should.equal(1);
+          hooks[0].should.be.an.Object;
+          hooks[0].id.should.equal(defaultHookId);
           done();
         },
         done
@@ -524,9 +526,11 @@ describe('Project Hooks', function (done) {
   it ('should delete a hook with custom event notifications from a project', function (done) {
     if (testId && specialHookId) {
       gitlab.projecthooks.delete(testId, specialHookId).done(
-        function (hook) {
-          hook.should.be.an.Object;
-          hook.id.should.equal(specialHookId);
+        function (hooks) {
+          hooks.should.be.an.Array;
+          hooks.length.should.equal(1);
+          hooks[0].should.be.an.Object;
+          hooks[0].id.should.equal(specialHookId);
           done();
         },
         done
