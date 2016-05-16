@@ -38,28 +38,22 @@ describe('Basic tests', function (done) {
 
   it ('should fail with bad token', function (done) {
     var gitlab = GitLab(config.url, 'BADTOKEN');
-    gitlab.projects.getAll().done(
-      function (data) {
-        done('Did not fail as expected');
-        console.dir(data);
-      },
-      function (err) {
-        done();
-      }
-    );
+    gitlab.projects.getAll()
+    .then(function (data) {
+      done('Did not fail as expected');
+      console.dir(data);
+    })
+    .catch(function () { done(); });
   });
 
   it ('should fail with bad url', function (done) {
     var gitlab = GitLab('test://test', 'fake-token');
-    gitlab.projects.getAll().done(
-      function (data) {
-        done('Did not fail as expected');
-        console.dir(data);
-      },
-      function (err) {
-        done();
-      }
-    );
+    gitlab.projects.getAll()
+    .then(function (data) {
+      done('Did not fail as expected');
+      console.dir(data);
+    })
+    .catch(function () { done(); });
   });
   
 });
