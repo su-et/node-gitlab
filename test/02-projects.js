@@ -48,21 +48,18 @@ describe('Generic Project Retrieval', function (done) {
     .catch(done);
   });
 
-/* Older versions of the API do not support order_by, sort, archived, search parameters
-
   it ('should return an ordered list of all projects with order_by=id', function (done) {
 
-    gitlab.projects.getAll({ "order_by": "id", "sort": "asc" }).done(
-      function (projects) {
-        projects.should.be.an.Array;
-        projects.length.should.be.greaterThan(2);
-        projects[0].id.should.be.lessThan(projects[1].id);
-        done();
-      },
-      done
-    );
+    gitlab.projects.getAll({ qs: { "order_by": "id", "sort": "asc" }})
+    .then(function (projects) {
+      projects.should.be.an.Array;
+      projects.length.should.be.greaterThan(2);
+      projects[0].id.should.be.lessThan(projects[1].id);
+      done();
+    })
+    .catch(done);
   });
-*/  
+
   it ('should return a single project', function (done) {
     gitlab.projects.get(projId)
     .then(function (project) {
