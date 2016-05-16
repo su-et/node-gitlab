@@ -28,13 +28,12 @@
   },
   "homepage": "https://github.com/su-et/node-gitlab",
   "devDependencies": {
-    "istanbul": "^0.3.13",
-    "jsdoc": "^3.3.0-beta3",
-    "jshint": "^2.6.3",
-    "mocha": "^2.2.3",
-    "should": "^5.2.0",
-    "should-http": "0.0.2",
-    "should-promised": "^0.2.0"
+    "istanbul": "^0.4.0",
+    "jsdoc": "^3.4.0",
+    "jshint": "^2.9.0",
+    "mocha": "^2.4.0",
+    "should": "^8.3.0",
+    "should-http": "0.0.4"
   },
   "dependencies": {
     "parse-link-header": "^0.4.0",
