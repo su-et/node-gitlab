@@ -13,7 +13,7 @@ var should      = require('should'),
     forkedId    = null;
 
 describe('Generic Project Retrieval', function (done) {
-  this.timeout(10000);
+  this.timeout(25000);
 
   var projId = null;
   
@@ -77,7 +77,7 @@ describe('Generic Project Retrieval', function (done) {
 
 describe('Project Creation', function (done) {
 
-  this.timeout(7500);
+  this.timeout(15000);
 
   it ('should create a project with an import', function (done) {
     var n = Math.floor(Math.random() * 100000).toString();
@@ -202,7 +202,7 @@ describe('Project Creation', function (done) {
 });
 
 describe('Branch Management', function (done) {
-  this.timeout(7500);
+  this.timeout(15000);
 
   it ('should list branches', function (done) {
     this.timeout(55000);
@@ -319,7 +319,7 @@ describe('Branch Management', function (done) {
 
 describe('Project Deploy Keys', function (done) {
   var keyId;
-  this.timeout(7500);
+  this.timeout(15000);
 
   it ('should add a deploy key to a project', function (done) {
     if (testId) {
@@ -520,7 +520,7 @@ describe('Project Hooks', function (done) {
 
 
 describe('Specific Project Retrieval', function (done) {
-  this.timeout(7500);
+  this.timeout(15000);
 
   it ('should find a project by ID', function (done) {
 
@@ -620,7 +620,7 @@ describe('Project Update', function (done) {
 
 describe('Project Deletion', function (done) {
 
-  this.timeout(7500);
+  this.timeout(15000);
 
   it ('should delete a project', function (done) {
     if (testId) {

@@ -13,7 +13,7 @@ var should      = require('should'),
 
 describe('Group Creation', function (done) {
 
-  this.timeout(5000);
+  this.timeout(15000);
 
   it ('should create a group', function (done) {
     var n = Math.floor(Math.random() * 100000).toString();
@@ -101,7 +101,7 @@ describe('Group Retrieval', function (done) {
 });
 
 describe('Group Search', function (done) {
-  this.timeout(5000);
+  this.timeout(15000);
 
   it ('should find a group', function (done) {
 
@@ -135,7 +135,7 @@ describe('Group Membership', function (done) {
 
   var memberId = null;
 
-  this.timeout(5000);
+  this.timeout(15000);
 
   it ('should add a group member', function (done) {
 
@@ -219,7 +219,7 @@ describe('Group Membership', function (done) {
 
 describe('Group Deletion', function (done) {
 
-  this.timeout(5000);
+  this.timeout(15000);
 
   it ('should delete a group', function (done) {
     if (testId) {
