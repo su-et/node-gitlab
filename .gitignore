@@ -1,3 +1,6 @@
 test/config.json
 coverage/
 node_modules/
+npm-debug.log
+checkstyle-result.xml
+test.tap
