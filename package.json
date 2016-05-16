@@ -8,7 +8,9 @@
     "test-basic": "node_modules/.bin/_mocha -R spec test/01-basic",
     "test-projects": "node_modules/.bin/_mocha -R spec test/02-projects",
     "test-groups": "node_modules/.bin/_mocha -R spec test/03-groups",
-    "test-users": "node_modules/.bin/_mocha -R spec test/04-users"
+    "test-users": "node_modules/.bin/_mocha -R spec test/04-users",
+    "ci-lint": "node_modules/.bin/jshint --reporter=checkstyle lib/*.js >checkstyle-result.xml",
+    "ci-test": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -g SLOW -i -R tap test/*.js >test.tap && node_modules/.bin/istanbul report clover"
   },
   "repository": {
     "type": "git",
