@@ -2,6 +2,9 @@ var should      = require('should'),
     shouldHttp  = require('should-http'),
     assert      = require('assert'),
     fs          = require('fs'),
+    os          = require('os'),
+    process     = require('process'),
+    execSync    = require('child_process').execSync,
     config      = JSON.parse(fs.readFileSync('test/config.json', 'utf8')),
     gitlab      = require('../lib/gitlab.js')(config.url, config.token),
     gitlabSudo  = require('../lib/gitlab.js')(config.url, config.token, config.sudoUser),
@@ -118,9 +121,16 @@ describe('User Update', function (done) {
 
 describe('User Key Management', function (done) {
 
-  var keyId = null;
-  
+  var keyId = null,
+      keyFile = os.tmpdir() + '/ssh_' + process.pid,
+      pubFile = keyFile + '.pub';
+
   this.timeout(5000);
+
+  execSync('ssh-keygen -t rsa -b 2048 -N "" -C "" -q -f ' + keyFile);
+  config.newSSHKey.key = fs.readFileSync(pubFile, 'utf-8').replace(/\s+$/,'');
+  fs.unlinkSync(keyFile);
+  fs.unlinkSync(pubFile);
 
   it ('should add an SSH key', function (done) {
     if (testId) {
