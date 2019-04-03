@@ -618,6 +618,126 @@ describe('Project Update', function (done) {
 });
 */
 
+describe('Repository Files', function (done) {
+
+  this.timeout(5000);
+
+  var filename = 'test1.txt',
+      branch   = 'master',
+      text     = 'Hello, World!',
+      text_b64 = new Buffer(text).toString('base64');
+
+  it ('should add a file to a repository', function (done) {
+    if (testId) {
+      gitlab.repofiles.create(testId, filename, branch, 'Test Commit', text)
+        .then(function (file) {
+          file.should.be.an.Object;
+          file.should.have.property('file_path');
+          file.file_path.should.be.a.String;
+          file.file_path.should.equal(filename);
+          file.should.have.property('branch');
+          file.branch.should.be.a.String;
+          file.branch.should.equal(branch);
+          done();
+        })
+        .catch(done);
+    } else {
+      console.warn('Skipping add file test because project creation failed');
+      done();
+    }
+  });
+
+  it ('should get a file from a repository', function (done) {
+    if (testId) {
+      gitlab.repofiles.get(testId, filename, branch)
+        .then(function (file) {
+          file.should.be.an.Object;
+          file.should.have.property('ref');
+          file.ref.should.be.a.String;
+          file.ref.should.equal(branch);
+          file.should.have.property('file_path');
+          file.file_path.should.be.a.String;
+          file.file_path.should.equal(filename);
+          file.should.have.property('encoding');
+          file.encoding.should.be.a.String;
+          file.encoding.should.equal('base64');
+          file.should.have.property('content');
+          file.content.should.be.a.String;
+          file.content.should.equal(text_b64);
+          done();
+        })
+        .catch(done);
+    } else {
+      console.warn('Skipping add file test because project creation failed');
+      done();
+    }
+  });
+
+  it ('should update a file in the repository', function (done) {
+    text += '\n';
+    text_b64 = new Buffer(text).toString('base64');
+
+    if (testId) {
+      gitlab.repofiles.update(testId, filename, branch, 'Adding newline', text_b64, 'base64')
+        .then(function (file) {
+          file.should.be.an.Object;
+          file.should.have.property('file_path');
+          file.file_path.should.be.a.String;
+          file.file_path.should.equal(filename);
+          file.should.have.property('branch');
+          file.branch.should.be.a.String;
+          file.branch.should.equal(branch);
+          done();
+        })
+        .catch(done);
+    } else {
+      console.warn('Skipping add file test because project creation failed');
+      done();
+    }
+  });
+
+  it ('should get an updated file from a repository', function (done) {
+    if (testId) {
+      gitlab.repofiles.get(testId, filename, branch)
+        .then(function (file) {
+          file.should.be.an.Object;
+          file.should.have.property('ref');
+          file.ref.should.be.a.String;
+          file.ref.should.equal(branch);
+          file.should.have.property('file_path');
+          file.file_path.should.be.a.String;
+          file.file_path.should.equal(filename);
+          file.should.have.property('encoding');
+          file.encoding.should.be.a.String;
+          file.encoding.should.equal('base64');
+          file.should.have.property('content');
+          file.content.should.be.a.String;
+          file.content.should.equal(text_b64);
+          done();
+        })
+        .catch(done);
+    } else {
+      console.warn('Skipping add file test because project creation failed');
+      done();
+    }
+  });
+
+  it ('should delete a file from a repository', function (done) {
+    if (testId) {
+      gitlab.repofiles.delete(testId, filename, branch, 'Deleting test file')
+        .then(function (resp) {
+          should.not.exist(resp);
+          done();
+        })
+        .catch(done);
+    } else {
+      console.warn('Skipping add file test because project creation failed');
+      done();
+    }
+  });
+
+});
+
 /*
 describe('Project Deletion', function (done) {
 
