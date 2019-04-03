@@ -200,11 +200,8 @@ describe('Group Membership', function (done) {
 
     if (memberId) {
       gitlab.groups.deleteMember(testId, config.userId)
-      .then(function (membership) {
-        membership.should.be.an.Object;
-        membership.user_id.should.equal(config.userId);
-        membership.source_id.should.equal(testId);
-        membership.access_level.should.equal(30);
+      .then(function (resp) {
+        should.not.exist(resp);
         done();
       })
       .catch(done);
@@ -224,10 +221,12 @@ describe('Group Deletion', function (done) {
   it ('should delete a group', function (done) {
     if (testId) {
       gitlab.groups.delete(testId)
-      .then(function (group) {
-        group.should.be.an.Object;
-        group.id.should.equal(testId);
-        group.name.should.equal(testName);
+      .then(function (resp) {
+        should.exist(resp);
+        resp.should.be.an.Object;
+        resp.should.have.property('message');
+        resp.message.should.be.a.String;
+        resp.message.should.startWith('202 ');
         done();
       })
       .catch(done);
@@ -242,10 +241,12 @@ describe('Group Deletion', function (done) {
       gitlab.groups.addMember(nameId, config.userId, 'developer')
       .then(function () {
         gitlab.groups.delete(nameId)
-        .then(function (group) {
-          group.should.be.an.Object;
-          group.id.should.equal(nameId);
-          group.name.should.equal(nameName);
+        .then(function (resp) {
+          should.exist(resp);
+          resp.should.be.an.Object;
+          resp.should.have.property('message');
+          resp.message.should.be.a.String;
+          resp.message.should.startWith('202 ');
           done();
         })
         .catch(done);
