@@ -11,12 +11,12 @@ var should      = require('should'),
     userTestId  = null,
     groupTestId = null,
     forkedId    = null;
-
+/*
 describe('Generic Project Retrieval', function (done) {
-  this.timeout(25000);
+  this.timeout(75000);
 
   var projId = null;
-  
+
   it ('should return projects', function (done) {
     gitlab.projects.get()
     .then(function (projects) {
@@ -69,9 +69,10 @@ describe('Generic Project Retrieval', function (done) {
     })
     .catch(done);
   });
+
 });
 
-
+*/
 describe('Project Creation', function (done) {
 
   this.timeout(15000);
@@ -129,7 +130,7 @@ describe('Project Creation', function (done) {
       done();
     }
   });
-  
+
   it ('should create a project for another user', function (done) {
     if (testId) {
       gitlab.projects.create({ "name": testName, "visibility_level": 10 }, config.userId)
@@ -138,7 +139,8 @@ describe('Project Creation', function (done) {
         project.id.should.not.equal(0);
         userTestId = project.id;
         project.name.should.equal(testName);
-        project.namespace.owner_id.should.equal(config.userId);
+        project.namespace.kind.should.equal('user');
+        project.namespace.full_path.should.equal(config.userName);
         project.owner.id.should.equal(config.userId);
         done();
       })
@@ -158,22 +160,22 @@ describe('Project Creation', function (done) {
         project.id.should.not.equal(0);
         groupTestId = project.id;
         project.name.should.equal(testName);
-        project.namespace.should.have.property('owner_id').be.null;
         project.namespace.id.should.equal(config.groupId);
         project.path_with_namespace.should.equal(project.namespace.path + '/' + testName);
         done();
       })
-      .catch(done);
+      .catch(function (err) {
+        console.dir(err.detail);
+        done(err);
+      });
     } else {
       console.warn('Skipping create project in group namespace because initial project creation failed');
       done();
     }
   });
 
-  
-  
 /* Forking via the API is not support in older versions of GitLab
-  
+
   it ('should fork a project', function (done) {
     if (testId) {
       gitlabSudo.projects.fork(testId)
@@ -311,7 +313,6 @@ describe('Branch Management', function (done) {
     }
   });
 */
-
 });
 
 describe('Project Deploy Keys', function (done) {
@@ -364,11 +365,12 @@ describe('Project Deploy Keys', function (done) {
       done();
     }
   });
-
+/*
   it ('should delete a deploy key from a project', function (done) {
     if (testId && keyId) {
       gitlab.deploykeys.delete(testId, keyId)
       .then(function (deploykey) {
+        console.dir(deploykey);
         deploykey.should.be.an.Object;
         deploykey.id.should.equal(keyId);
         done();
@@ -379,8 +381,9 @@ describe('Project Deploy Keys', function (done) {
       done();
     }
   });
+*/
 });
-
+/*
 describe('Project Hooks', function (done) {
   var hookUrl = 'http://example.org/',
       defaultHookId = null,
@@ -615,6 +618,7 @@ describe('Project Update', function (done) {
 });
 */
 
+/*
 describe('Project Deletion', function (done) {
 
   this.timeout(15000);
@@ -670,7 +674,7 @@ describe('Project Deletion', function (done) {
       done();
     }
   });
-  
+
 /* Forking via the API is not support in older versions of GitLab
   it ('should delete a forked project', function (done) {
     if (forkedId) {
@@ -687,8 +691,8 @@ describe('Project Deletion', function (done) {
       done();
     }
   });
-*/
+*//*
 });
-
+*/
 
 
