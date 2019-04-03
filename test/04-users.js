@@ -175,12 +175,8 @@ describe('User Key Management', function (done) {
   it ('should delete an SSH key', function (done) {
     if (testId && keyId) {
       gitlab.users.deleteSSHKey(testId, keyId)
-      .then(function (key) {
-        key.should.be.an.Object;
-        key.id.should.equal(keyId);
-        key.user_id.should.equal(testId);
-        key.title.should.equal(config.newSSHKey.title);
-        key.key.should.equal(config.newSSHKey.key);
+      .then(function (resp) {
+        should.not.exist(resp);
         done();
       })
       .catch(done);
@@ -234,12 +230,8 @@ describe('User Key Management', function (done) {
 
     if (testId && keyId) {
       gitlabNew.users.deleteSSHKey(keyId)
-      .then(function (key) {
-        key.should.be.an.Object;
-        key.id.should.equal(keyId);
-        key.user_id.should.equal(testId);
-        key.title.should.equal(config.newSSHKey.title);
-        key.key.should.equal(config.newSSHKey.key);
+      .then(function (resp) {
+        should.not.exist(resp);
         done();
       })
       .catch(done);
@@ -258,10 +250,8 @@ describe('User Deletion', function (done) {
   it ('should delete a user', function (done) {
     if (testId) {
       gitlab.users.delete(testId)
-      .then(function (user) {
-        user.should.be.an.Object;
-        user.id.should.equal(testId);
-        user.name.should.equal(config.newUser.name);
+      .then(function (resp) {
+        should.not.exist(resp);
         done();
       })
       .catch(done);
