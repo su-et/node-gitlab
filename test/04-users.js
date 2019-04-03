@@ -16,6 +16,8 @@ var should      = require('should'),
 
 describe('User Retrieval', function (done) {
 
+  this.timeout(30000);
+
   var userId = null;
   
   it ('should return users', function (done) {
